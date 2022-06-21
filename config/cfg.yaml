@@ -1,0 +1,39 @@
+gate_way:
+  routes:
+    - cluster: "test"               # 话术
+      lb: "round_robin"
+      path: "/factory-manager"
+      limit:
+        cpu: 0.01
+        memory: 1                         # 单位GB
+        disk: 10                           # 单位GB
+      filters:
+        - name: "RATE-LIMITING"
+          args:
+            capacity: 100
+            duration: 1
+        - name: "OAUTH-VALID"
+        - name: "LEASE-VALID"
+  hystrix:
+    request_threshold: 20
+    sleep_win_time: 5000
+    err_threshold_percent: 0.5
+  health_check:
+    timeout: 3    # 超时响应时间，单位秒
+    internal: 60  # 检查间隔，单位秒
+    service_after_del: 10 # 重连几次删除服务
+  black_list:
+    - ""
+  prometheus:
+    switch: 0
+    ip: 127.0.0.1
+    port: 9090
+    mount: "/data"
+  aggregation_api:
+    - type: "merge"
+      url: "/api/v1/test"
+      apis:
+        - method: "GET"    # 缺省值是GET
+          url: "/api/v1/test/step1"
+        - method: "GET"
+          url: "/api/v1/test/step2"

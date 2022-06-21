@@ -1,0 +1,1 @@
+go build -o ../build/api-gateway ../main.go
