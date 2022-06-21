@@ -1,6 +1,7 @@
 # api-gateway
 ### 网关架构视图
-![API网关服务视图](docs/API网关设计.png)
+![API网关服务视图](API网关设计.png)
+
 API网关主要有以下功能模块：
 + transport层：数据解码，匹配对应ClusterName以及API
 + filter层：前置和后置过滤器
